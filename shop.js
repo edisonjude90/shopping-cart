@@ -131,7 +131,7 @@ var pageViews = {
         document.querySelector(".cart-items").innerHTML = TempArr;
 
     },
-    orderPlaceMent:function(){
+    orderPlacement:function(){
 
     }
 
