@@ -13,8 +13,8 @@
                     </h1>
                     <div id = "shop-browse" class = "">
                     <div>
-                        <input class = "shop-search-box" type = "text" value = "" />
-                        <input class = "btn" type = "button" value = "Search" />                                 
+                        <input id = "shop-search-box" class="shop-search-box" type = "text" value = "" />
+                        <input id = "shop-search-btn" class = "btn" type = "button" value = "Search" />                                 
                         <span>
                             <span class = "cart-count-label">
                                 <span class = "cart">Cart</span>-
@@ -100,31 +100,34 @@
                         </div>-->
                     </div>
                     </div>
-                    <div id = "shop-order-summary" class = "hide">
+                    <div id="shop-order-summary" class="hide">
                         <h3>
                             Order Summary
                         </h3>
-                        <div id = "shop-order-product-details">
+                        <div id="shop-order-product-details">
                             <h4>
                                 Ordered Products
-                            </h4>
+                            </h4>    
+                            <table id = "shop-items-list-table" >
+                                
+                            </table>
+                            
                             <div>
-                                <span>
-                                    Product Name
-                                </span>
-                                <span>
-                                    Amount 
-                                </span>
+                                Total Payment : <span id="total-payment">Rs. 2000</span>    
                             </div>
+                            
                         </div>
-                        <div id = "shop-order-shipment-details">
-                            <h4>
-                                Shipment Details
-                            </h4>
+                    <div id="shop-order-shipment-details">
+                        <h4>
+                            Shipment Details
+                        </h4>
+                        <div id = "order-shipment-details">    
+                            
+                        </div>
                         </div>
                         <div>
-                            <input type = "button" value = "Continue" />
-                            <input id = "btn-cancel-order" type = "button" value = "Cancel" />
+                            <input type="button" value="Continue">
+                            <input id="btn-cancel-order" type="button" value="Cancel">
                         </div>
                     </div>
                 </div>

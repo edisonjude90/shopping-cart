@@ -32,7 +32,7 @@ var productItems = [{
                     }];
 
 function UserDetails(userName,userAddress,contactNo){
-    this.username = userName;
+    this.userName = userName;
     this.userAddress = userAddress;
     this.contactNo = contactNo;
 }
@@ -42,6 +42,7 @@ function ProductItem(product,noOfItems){
     this.productName = product.productName;
     this.productImg = product.productImg;
     this.numberOfItems = noOfItems;
+    this.productPrice = product.price;
 }
 
 function Shopping(userName,userAddress,contactNo){
@@ -64,22 +65,25 @@ Shopping.prototype.RemoveFromCart = function(index){
     pageViews.listProductInCart();
 }
 
-Shopping.prototype.SearchForProducts = function(){
-
+Shopping.prototype.SearchForProducts = function(searchText){
+    var searchItem = productItems.filter((value)=>{
+        if (value.productName.toLowerCase().indexOf(searchText) >= 0){
+            return value;
+        }
+    });
+    pageViews.listProducts(searchItem);
 }
 
 Shopping.prototype.placeOrder = function(){
 
 }
 
-
-
 var pageViews = {
 
-    listProducts:function(){
+    listProducts:function(ItemList){
 
         var TempArr = '';
-        productItems.forEach((val,index)=>{
+        ItemList.forEach((val,index)=>{
 
             TempArr += `
                 <div class="item">
@@ -133,6 +137,49 @@ var pageViews = {
     },
     orderPlacement:function(){
 
+        var productItems = `<tr>
+                                <th>S.No</th>
+                                <th>Product Name</th>
+                                <th>Item Count</th>
+                                <th>Amount</th>    
+                            </tr>`;
+
+        var listOfProducts =  userShopping.cart.map((value,index)=>{
+
+            return `<tr>
+                        <td>`+ (index + 1) +`</td>
+                        <td>` + value.productName + `</td>
+                        <td> ` + value.numberOfItems + ` </td>
+                        <td>`  + value.productPrice +  `</td>    
+                    </tr>
+            `;
+
+        });                          
+
+        var totalAmount = userShopping.cart.reduce((prev,cur)=>{
+            return prev + cur.productPrice;
+        },0);
+    
+                            
+        productItems = productItems + listOfProducts.join("");
+
+        var shipmentDetails = `<div>
+                                    <span>Name : </span>
+                                    <span>` + userShopping.userName + `</span>
+                                </div>
+                                <div>
+                                    <span>Address : </span>
+                                    <span>` + userShopping.userAddress + `</span>
+                                </div>
+                                <div>
+                                    <span>Contact : </span>
+                                    <span>` + userShopping.contactNo + `</span>
+                                </div>`;
+
+        document.getElementById("shop-items-list-table").innerHTML = productItems;
+        document.getElementById("order-shipment-details").innerHTML = shipmentDetails;
+        document.getElementById("total-payment").innerHTML = "Rs. " + totalAmount;
+
     }
 
 }
@@ -141,12 +188,13 @@ var pageViews = {
 // Event Binding 
 
 window.onload = function(){
-    pageViews.listProducts();
+    pageViews.listProducts(productItems);
 }
 
 document.getElementById("order-checkout").onclick = function(){
     document.getElementById("shop-order-summary").className = "";
     document.getElementById("shop-browse").className = "hide";
+    pageViews.orderPlacement();
 };
 
 document.getElementById("btn-cancel-order").onclick = function(){
@@ -160,6 +208,11 @@ document.querySelector(".cart-count-label").onclick = function(){
     }else{
         document.getElementsByClassName("cart-items")[0].className = "cart-items hide";
     }
+}
+
+document.getElementById("shop-search-btn").onclick = function(){
+    var searchTextBox = document.getElementById("shop-search-box").value.toLowerCase();
+    userShopping.SearchForProducts(searchTextBox);
 }
 
 function AddToCartEvent(index){
