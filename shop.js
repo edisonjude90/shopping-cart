@@ -74,9 +74,6 @@ Shopping.prototype.SearchForProducts = function(searchText){
     pageViews.listProducts(searchItem);
 }
 
-Shopping.prototype.placeOrder = function(){
-
-}
 
 var pageViews = {
 
